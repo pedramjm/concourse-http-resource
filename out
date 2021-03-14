@@ -6,6 +6,9 @@ exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
 
 source=$1
+echo "source: $source"
+echo " source-array ${source[@]}"
+
 
 if [ -z "$source" ]; then
   echo "usage: $0 <path/to/source>"
@@ -21,8 +24,14 @@ url=$(jq -r '.source.url' < $payload)
 method=$(jq -r '.source.method // "GET"' < $payload)
 headers=$(jq -r '.source.headers // {}' < $payload)
 
+echo "headers: $headers"
+echo "headers-array: ${headers[@]}"
+
+
 data_file=$(jq -r '.params.data_file // ""' < $payload)
 data_text=$(jq -r '.params.data_text // ""' < $payload)
+auth_token=$(jq -r '.params.auth_token // ""' < $payload)
+git_repo=$(jq -r '.params.auth_token // ""' < $payload)
 
 if [ ! -z "$data_file" ] && [ ! -z "$data_text" ]; then
   echo "Only one of data_file or data_text can be set" >&2
@@ -49,6 +58,9 @@ if [ "${#header_keys[@]}" -gt 0 ]; then
   done
 fi
 
+echo "expandedheaders: $expanded_headers"
+echo "expanded-headers-array: ${expanded_headers[@]}"
+
 expanded_data=()
 if [ ! -z "$data_file" ]; then
   expanded_data+=("--data-binary")
@@ -62,6 +74,8 @@ if [ ! -z "$data_text" ]; then
   expanded_data+=("$data_text")
 fi
 
+
+# [@] splits the array (expanded_headers and expanded data) into "new lines" or separate elements
 curl -X "$method" "${expanded_headers[@]}" "${expanded_data[@]}" "$url"
 
 echo "{\"version\": {\"time\": \"$(date +%s)\"}}" >&3
