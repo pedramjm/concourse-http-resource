@@ -62,7 +62,7 @@ echo "expandedheaders: $expanded_headers"
 echo "expanded-headers-array: ${expanded_headers[@]}"
 
 ls -al /tmp/build/put/files/
-cat /tmp/build/put/files/created_file
+#cat /tmp/build/put/files/created_file
 
 expanded_data=()
 if [ ! -z "$data_file" ]; then
