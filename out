@@ -17,8 +17,11 @@ fi
 
 
 git_repo="`cat /tmp/build/put/report/git_repo_name`"
+echo ${git_repo}
+echo "PWD:"
+pwd
 
-get_uuid=$(find ./report/ -type f -name "*.json")
+get_uuid=$(find /tmp/build/put/report/ -type f -name "*.json")
 get_uuid=${get_uuid##*/}
 
 
