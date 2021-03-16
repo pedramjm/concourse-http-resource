@@ -61,7 +61,7 @@ fi
 echo "expandedheaders: $expanded_headers"
 echo "expanded-headers-array: ${expanded_headers[@]}"
 
-ls -al /tmp/build/put/files/
+ls -al /tmp/build/put/report/
 #cat /tmp/build/put/files/created_file
 
 expanded_data=()
