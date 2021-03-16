@@ -15,6 +15,14 @@ if [ -z "$source" ]; then
   exit 1
 fi
 
+
+git_repo="`cat /tmp/build/put/report/created_file`"
+
+get_uuid=$(find ./report/ -type f -name "*.json")
+get_uuid=${get_uuid##*/}
+
+
+
 payload=$(mktemp /tmp/resource-out.XXXXXX)
 cat > $payload <&0
 
@@ -31,7 +39,7 @@ echo "headers-array: ${headers[@]}"
 data_file=$(jq -r '.params.data_file // ""' < $payload)
 data_text=$(jq -r '.params.data_text // ""' < $payload)
 auth_token=$(jq -r '.params.auth_token // ""' < $payload)
-git_repo=$(jq -r '.params.auth_token // ""' < $payload)
+#git_repo=$(jq -r '.params.auth_token // ""' < $payload)
 
 if [ ! -z "$data_file" ] && [ ! -z "$data_text" ]; then
   echo "Only one of data_file or data_text can be set" >&2
@@ -56,12 +64,21 @@ if [ "${#header_keys[@]}" -gt 0 ]; then
     expanded_headers+=("--header")
     expanded_headers+=("${key}: ${value}")
   done
+  expanded_headers+=("--header")
+  expanded_headers+=("X-BUILD_TEAM: ${BUILD_TEAM_NAME}")
+  expanded_headers+=("--header")
+  expanded_headers+=("X-BUILD_PIPELINE: ${BUILD_PIPELINE_NAME}")
+  expanded_headers+=("--header")
+  expanded_headers+=("X-GIT_REPO: ${git_repo}")
+  expanded_headers+=("--header")
+  expanded_headers+=("X-UUID: ${get_uuid}")
 fi
 
 echo "expandedheaders: $expanded_headers"
 echo "expanded-headers-array: ${expanded_headers[@]}"
 
 ls -al /tmp/build/put/report/
+pwd
 #cat /tmp/build/put/files/created_file
 
 expanded_data=()
