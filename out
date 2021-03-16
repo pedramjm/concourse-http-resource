@@ -16,7 +16,7 @@ if [ -z "$source" ]; then
 fi
 
 
-git_repo="`cat /tmp/build/put/report/created_file`"
+git_repo="`cat /tmp/build/put/report/git_repo_name`"
 
 get_uuid=$(find ./report/ -type f -name "*.json")
 get_uuid=${get_uuid##*/}
