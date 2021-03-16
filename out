@@ -23,6 +23,7 @@ pwd
 
 get_uuid=$(find /tmp/build/put/report/ -type f -name "*.json")
 get_uuid=${get_uuid##*/}
+get_uuid=${get_uuid%.json}
 
 
 
