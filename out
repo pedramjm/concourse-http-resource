@@ -69,6 +69,8 @@ if [ "${#header_keys[@]}" -gt 0 ]; then
     expanded_headers+=("${key}: ${value}")
   done
   expanded_headers+=("--header")
+  expanded_headers+=("Content-Type: application/octet-stream")
+  expanded_headers+=("--header")
   expanded_headers+=("X-BUILD_TEAM: ${BUILD_TEAM_NAME}")
   expanded_headers+=("--header")
   expanded_headers+=("X-BUILD_PIPELINE: ${BUILD_PIPELINE_NAME}")
