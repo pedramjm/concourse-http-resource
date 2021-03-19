@@ -102,7 +102,7 @@ fi
 
 
 # [@] splits the array (expanded_headers and expanded data) into "new lines" or separate elements
-curl -X "$method" "${expanded_headers[@]}" "${expanded_data[@]}" "--data-binary "${get_uuid}.html" "$url"
-curl -X "$method" "${expanded_headers[@]}" "${expanded_data[@]}" "--data-binary "${get_uuid}.json" "$url" 
+curl -X "$method" "${expanded_headers[@]}" "${expanded_data[@]}" --data-binary @${get_uuid}.html "$url"
+curl -X "$method" "${expanded_headers[@]}" "${expanded_data[@]}" --data-binary @${get_uuid}.json "$url"
 
 echo "{\"version\": {\"time\": \"$(date +%s)\"}}" >&3
